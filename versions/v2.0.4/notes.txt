@@ -1,0 +1,6 @@
+This is the first version created for applications testing.
+
+Known issues:
+- overshoot at 160F LWT target when ambient is high (115F)
+- BMS is untested
+- issue with mode-switching (to create, try switching between remote-enable and BMS Remote on the config page)
