@@ -1,0 +1,18 @@
+{
+  "release_version": "v2.0.7",
+  "release_datetime": "2026-09-16T20:37:44Z",
+  "components": {
+    "hmi": {
+      "file": "hmi_v2.0.7.bin",
+      "sha256": "adff5aafe56f81ac3a4b1df377a31a9a1e724d54be38702f7882670e53dda0d7"
+    },
+    "iot": {
+      "file": "iot_v2.0.7.bin",
+      "sha256": "8ee9dab0a75661a6122195b6fb811b78fef1023dbc6b79c1de865db7ccb27e78"
+    },
+    "control": {
+      "file": "control_v2.0.7.bin",
+      "sha256": "737078de0223b41f43d1a47677cac68c5e517468ad53c227a38759634a4fce0d"
+    }
+  }
+}
