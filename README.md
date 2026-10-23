@@ -1,49 +1,84 @@
-# Release Management
+# HPC Releases
 
-This directory serves as the archive for HPC firmware releases and release candidates.
-Each release consists of three binaries: HMI, control, and iot.
+This repository is the archive of HPC firmware releases and release candidates.
+Each release consists of three binaries (HMI, control, and iot) plus the HMI assets.
+The binaries are kept here uncompressed, so a checkout can be copied onto an HMI as-is.
+
+Releases are created by `tools/create_release.sh` in the
+[HPC_Firmware](https://github.com/NyleWaterHeatingSystems/HPC_Firmware) repository; nothing here builds anything.
 
 ## Directory Structure
 
 ```
-releases/
-├── LATEST                        # Symlink to the latest version (./versions/v2.2.0/)
-├── create_release.sh             # Script that bundles current software into a release
-├── README.md                     # This document, details the organization and SOO of release versions
-└── versions/                     # All previous versions, may include release candidates
-    ├── v2.2.0/
-    │   ├── manifest.json         # Checksums and version metadata
-    │   ├── notes.txt             # Release Notes
-    │   ├── hmi_v2.2.0.bin        # Linux HMI binary
-    │   ├── iot_v2.2.0.bin        # Embedded IOT chip binary
-    │   └── control_v2.0.0.bin    # Embedded control chip binary
-    ├── v2.2.0-RC2/               # Release Candidates are suffixed with '-RC[Candidate Index]'
-    ├── v2.2.0-RC1/
-    ├── v2.1.0/
-    ├── v2.1.0-RC1/
+hpc-releases/
+├── LATEST                        # Symlink to the release currently in use (./versions/v2.0.8)
+├── README.md                     # This document
+└── versions/                     # All releases, including release candidates
+    ├── v2.0.8/
+    │   ├── manifest.json         # Checksums, source commit and version metadata
+    │   ├── notes.txt             # Release notes
+    │   ├── hmi_v2.0.8.bin        # Linux HMI binary (aarch64)
+    │   ├── iot_v2.0.8.bin        # Embedded IOT chip binary
+    │   ├── control_v2.0.8.bin    # Embedded control chip binary
+    │   └── assets/               # HMI assets (audio, fonts, images)
+    ├── v2.1.0-RC1/               # Release candidates are suffixed with '-RC[Candidate Index]'
     └ ...
 ```
 
-## Firmware version
+A release folder is never changed after it is published. A fix gets a new version.
 
-The firmware version for HMI, control, and IoT is defined once in the repo-root `VERSION` file.
-Bump that file, then reconfigure/rebuild each component so generated `version.h` files and binary names stay in sync.
+## manifest.json
 
-## Release Sequence of Operations
+| Field | Meaning |
+|---|---|
+| `release_version` | Release name, e.g. `v2.0.8` or `v2.1.0-RC1` |
+| `release_datetime` | UTC time the release was created |
+| `source_repo`, `source_commit`, `source_branch`, `source_tag` | Exactly what the binaries were built from. `source_tag` is a tag in HPC_Firmware |
+| `source_provenance` | Only on releases made before source tracking (v2.0.8 and earlier): how the source commit was inferred |
+| `requires_setup` | Minimum stock_hmi setup version the release needs, or `null` |
+| `components` | File name and SHA-256 of each binary, plus a combined SHA-256 of the `assets/` folder |
 
-1. Navigate to the root-directory of the project (`HPC_Firmware/`).
-2. Run `releases/create_release.sh`. It reads the version from `VERSION`.
-   Examples:
-   - `releases/create_release.sh` would generate a release from `VERSION` (e.g. 2.0.5)
-   - `releases/create_release.sh 3` would generate a release candidate (e.g. 2.0.5-RC3)
-   - `releases/create_release.sh 2 0 5` still works if the numbers match `VERSION`
-3. If you wish to update the currently-used release (when performing a rollback or after validation a release candidate) update the LATEST symlink to point to the desired version.
-   Example:
-   - `ln -sf ./versions/v2.0.0-RC1 ./releases/LATEST`
+Releases up to v2.0.8 have no assets hash, and their source commit was inferred after the fact.
+Each manifest's `source_provenance` field and the release's notes say how confident that match is.
+
+## Creating a Release
+
+In HPC_Firmware:
+
+1. Bump `VERSION`, commit, and push to `main`.
+2. Build the HMI (aarch64), control, and iot from that commit.
+3. Run `tools/create_release.sh` for a final release, or `tools/create_release.sh <RC-Number>` for a release candidate.
+   Add `--requires-setup setup-vX.Y.Z` if the release needs a minimum setup version.
+   The script expects this repository checked out next to HPC_Firmware; otherwise set `HPC_RELEASES_DIR` or pass `--releases-dir`.
+
+The script refuses to run if:
+
+- the working tree has uncommitted or untracked changes
+- the release tag already exists, locally or on origin
+- a final release is not on `main` in sync with `origin/main` (release candidates may come from any branch)
+- `VERSION` does not match the requested version, or a binary is older than the current commit
+
+It writes `versions/<release>/`, drafts `notes.txt` from the commits since the previous tag, and tags the source commit
+in HPC_Firmware. Then:
+
+4. Complete `notes.txt` (see below).
+5. Push the tag from HPC_Firmware: `git push origin <release>`.
+6. Commit and push the new folder here.
+
+## Choosing the Release in Use
+
+`LATEST` points at the release that `stock_hmi` installs (`stock-hmi.py --update`).
+To promote a release candidate or roll back, repoint it and commit:
+
+```
+ln -sfn ./versions/v2.0.8 LATEST
+```
+
+`create_release.sh` offers to do this after creating a release.
 
 ## Release Notes
 
-Release notes should include the following information:
+Release notes should include:
 
 - The date of the release
 - A summary of features and fixes made since the last release (changelog)
