@@ -1,0 +1,23 @@
+v2.0.7 (2026-09-16)
+
+Notes were not written at release time; added retroactively on 2026-10-23.
+
+Supported units: TODO
+
+Summary: TODO
+
+Source: HPC_Firmware tag v2.0.7 (commit 4dce068)
+Inferred, MEDIUM confidence: last commit before the build (version bump a76e1de). Closest available commit; may not be identical to the build.
+
+Changes since v2.0.6 (from git history between the inferred tags):
+- [FIX] finger scrolling blocks button presses (take 3) (4dce068)
+- [FIX] finger scrolling blocks button presses (take 2) (ab5c445)
+- [FIX] finger scrolling blocks button presses (330c742)
+- VERSION 2.000.007 (a76e1de)
+- [FIX] values that  happen to be set to default are zerod (TODO: this still needs to be revisited and doesn't resolve the underlying value init conflict that can occur) (3bd49cf)
+- [FIX] relock config and factory pages by default (ea03ba4)
+- [FEATURE] re-implement scrolling (d175c1a)
+- [BUG FIX] fix manual fan not terminating (26f36cb)
+- [FIX] check unit before requiring calibration (TODO: make unit agnostic and use feature-flag instead) (efb33ce)
+- [DOCS] added to readme style guide (008c28a)
+- merged jim's e180 branch (c71d0b8)
