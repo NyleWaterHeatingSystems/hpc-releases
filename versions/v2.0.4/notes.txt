@@ -4,3 +4,6 @@ Known issues:
 - overshoot at 160F LWT target when ambient is high (115F)
 - BMS is untested
 - issue with mode-switching (to create, try switching between remote-enable and BMS Remote on the config page)
+
+Source: HPC_Firmware tag v2.0.4 (commit f3977aa)
+Inferred: commit that added the release binaries, 3 min after the build. Closest available commit; may not be identical to the build.

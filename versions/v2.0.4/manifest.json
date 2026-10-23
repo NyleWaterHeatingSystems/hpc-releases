@@ -1,6 +1,11 @@
 {
   "release_version": "v2.0.4",
   "release_datetime": "2026-07-17T20:42:39Z",
+  "source_repo": "git@github.com:NyleWaterHeatingSystems/HPC_Firmware.git",
+  "source_commit": "f3977aab6d197e32c6b08e5a65017113b291121a",
+  "source_tag": "v2.0.4",
+  "source_provenance": "Inferred: commit that added the release binaries, 3 min after the build. Closest available commit; may not be identical to the build.",
+  "requires_setup": null,
   "components": {
     "hmi": {
       "file": "hmi_v2.0.4.bin",

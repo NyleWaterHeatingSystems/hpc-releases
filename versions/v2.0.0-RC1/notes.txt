@@ -1,0 +1,10 @@
+v2.0.0-RC1 (2026-05-08)
+
+Notes were not written at release time; added retroactively on 2026-10-23.
+
+Supported units: TODO
+
+Summary: TODO
+
+Source: HPC_Firmware tag v2.0.0-RC1 (commit 748bb2c)
+Inferred: commit that added the release binaries, 23 min after the build. Closest available commit; may not be identical to the build.
