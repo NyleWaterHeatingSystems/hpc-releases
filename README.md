@@ -37,9 +37,9 @@ Bump that file, then reconfigure/rebuild each component so generated `version.h`
    - `releases/create_release.sh` would generate a release from `VERSION` (e.g. 2.0.5)
    - `releases/create_release.sh 3` would generate a release candidate (e.g. 2.0.5-RC3)
    - `releases/create_release.sh 2 0 5` still works if the numbers match `VERSION`
-3. If you wish to update the currently-used release (when performing a rollback or after validation a release candidate) update the LATEST symlink to point to the desired version.
+3. If you wish to update the currently-used release (when performing a rollback or after validation a release candidate) update the LATEST symlink to point to the desired version. `create_release.sh` offers to do this for you after creating a release.
    Example:
-   - `ln -sf ./versions/v2.0.0-RC1 ./releases/LATEST`
+   - `ln -sfn ./versions/v2.0.0-RC1 ./releases/LATEST`
 
 ## Release Notes
 

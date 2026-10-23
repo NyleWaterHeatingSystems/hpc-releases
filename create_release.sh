@@ -86,6 +86,22 @@ if [[ ! -d "$BUILD_HMI_ASSETS" ]]; then
     exit 1
 fi
 
+# Safety Check: the HMI runs on an ARM64 SBC, so reject binaries built for the host (e.g. x86-64 laptop).
+# Reads the ELF header directly: magic (bytes 0-3), EI_CLASS (byte 4, 2 = 64-bit), EI_DATA (byte 5, 1 = little
+# endian) and e_machine (bytes 18-19, 0x00b7 = EM_AARCH64).
+HMI_ELF_HEADER="$(od -An -tx1 -N20 -v "$BUILD_HMI" | tr -d ' \n')"
+HMI_ELF_MAGIC="${HMI_ELF_HEADER:0:8}"
+HMI_ELF_CLASS_DATA="${HMI_ELF_HEADER:8:4}"
+HMI_ELF_MACHINE="${HMI_ELF_HEADER:36:4}"
+if [[ "$HMI_ELF_MAGIC" != "7f454c46" || "$HMI_ELF_CLASS_DATA" != "0201" || "$HMI_ELF_MACHINE" != "b700" ]]; then
+    echo "Error: HMI binary is not an ARM aarch64 executable: $BUILD_HMI"
+    if command -v file >/dev/null 2>&1; then
+        echo "  file: $(file -b "$BUILD_HMI")"
+    fi
+    echo "Rebuild the HMI on (or cross-compile for) the ARM target before creating a release."
+    exit 1
+fi
+
 # Logic for RC naming
 # If an RC number is provided, it turns "2.3.0" into "v2.3.0-RC1"
 RELEASE_NAME="v$VERSION"
@@ -143,3 +159,20 @@ EOF
 
 echo "Release created successfully at $TARGET_DIR"
 ls "$TARGET_DIR"
+
+# 5. Optionally promote this release to LATEST
+LATEST_LINK="$PROJECT_ROOT/releases/LATEST"
+if [[ -t 0 ]]; then
+    echo
+    echo "LATEST currently points to: $(readlink "$LATEST_LINK" 2>/dev/null || echo '<none>')"
+    read -r -p "Update LATEST to $RELEASE_NAME? [y/N] " REPLY
+    if [[ "$REPLY" =~ ^[Yy]$ ]]; then
+        # -n: replace the existing directory symlink instead of creating a link inside it
+        ln -sfn "./versions/$RELEASE_NAME" "$LATEST_LINK"
+        echo "LATEST -> $(readlink "$LATEST_LINK")"
+    else
+        echo "LATEST left unchanged."
+    fi
+else
+    echo "Non-interactive shell; LATEST left unchanged."
+fi
