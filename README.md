@@ -11,7 +11,7 @@ Releases are created by `tools/create_release.sh` in the
 
 ```
 hpc-releases/
-├── LATEST                        # Symlink to the release currently in use (./versions/v2.0.8)
+├── CURRENT                       # Text file naming the release in use, e.g. v2.0.8
 ├── README.md                     # This document
 └── versions/                     # All releases, including release candidates
     ├── v2.0.8/
@@ -31,7 +31,7 @@ A release folder is never changed after it is published. A fix gets a new versio
 
 | Field | Meaning |
 |---|---|
-| `release_version` | Release name, e.g. `v2.0.8` or `v2.1.0-RC1` |
+| `release_version` | Release name (matches its folder and `CURRENT`), e.g. `v2.0.8` or `v2.1.0-RC1` |
 | `release_datetime` | UTC time the release was created |
 | `source_repo`, `source_commit`, `source_branch`, `source_tag` | Exactly what the binaries were built from. `source_tag` is a tag in HPC_Firmware |
 | `source_provenance` | Only on releases made before source tracking (v2.0.8 and earlier): how the source commit was inferred |
@@ -67,14 +67,19 @@ in HPC_Firmware. Then:
 
 ## Choosing the Release in Use
 
-`LATEST` points at the release that `stock_hmi` installs (`stock-hmi.py --update`).
-To promote a release candidate or roll back, repoint it and commit:
+`CURRENT` is a one-line text file holding the name of a folder in `versions/`, e.g. `v2.0.8`.
+Whatever installs a release reads it and uses `versions/<that name>/`.
+To promote a release candidate or roll back, change it and commit:
 
 ```
-ln -sfn ./versions/v2.0.8 LATEST
+echo v2.0.8 > CURRENT
 ```
 
 `create_release.sh` offers to do this after creating a release.
+
+`CURRENT` is a plain file rather than a symlink because this repository travels on USB sticks, and FAT/exFAT
+cannot store symlinks. For the same reason, do not rely on file permissions surviving a copy: the installer must
+mark the HMI binary executable itself.
 
 ## Release Notes
 
