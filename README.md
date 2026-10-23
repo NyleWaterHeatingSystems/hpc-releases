@@ -20,7 +20,8 @@ hpc-releases/
     │   ├── hmi_v2.0.8.bin        # Linux HMI binary (aarch64)
     │   ├── iot_v2.0.8.bin        # Embedded IOT chip binary
     │   ├── control_v2.0.8.bin    # Embedded control chip binary
-    │   └── assets/               # HMI assets (audio, fonts, images)
+    │   ├── assets/               # HMI assets (audio, fonts, images)
+    │   └── debs/bookworm-arm64/  # Optional: app dependency packages for that Debian release/architecture
     ├── v2.1.0-RC1/               # Release candidates are suffixed with '-RC[Candidate Index]'
     └ ...
 ```
@@ -36,6 +37,7 @@ A release folder is never changed after it is published. A fix gets a new versio
 | `source_repo`, `source_commit`, `source_branch`, `source_tag` | Exactly what the binaries were built from. `source_tag` is a tag in HPC_Firmware |
 | `source_provenance` | Only on releases made before source tracking (v2.0.8 and earlier): how the source commit was inferred |
 | `requires_setup` | Minimum stock_hmi setup version the release needs, or `null` |
+| `debs` | Bundled packages (target, folder, and each file's package, version, architecture and SHA-256), or `null` |
 | `components` | File name and SHA-256 of each binary, plus a combined SHA-256 of the `assets/` folder |
 
 Releases up to v2.0.8 have no assets hash, and their source commit was inferred after the fact.
@@ -49,6 +51,7 @@ In HPC_Firmware:
 2. Build the HMI (aarch64), control, and iot from that commit.
 3. Run `tools/create_release.sh` for a final release, or `tools/create_release.sh <RC-Number>` for a release candidate.
    Add `--requires-setup setup-vX.Y.Z` if the release needs a minimum setup version.
+   Add `--debs <dir>` to bundle the app's dependency `.deb` files (see below).
    The script expects this repository checked out next to HPC_Firmware; otherwise set `HPC_RELEASES_DIR` or pass `--releases-dir`.
 
 The script refuses to run if:
@@ -80,6 +83,21 @@ echo v2.0.8 > CURRENT
 `CURRENT` is a plain file rather than a symlink because this repository travels on USB sticks, and FAT/exFAT
 cannot store symlinks. For the same reason, do not rely on file permissions surviving a copy: the installer must
 mark the HMI binary executable itself.
+
+## Bundled Dependencies
+
+A release can carry the `.deb` packages the app needs that are not already in the golden image, so it installs
+offline from USB. Install them on the HMI with:
+
+```
+sudo apt install ./versions/<release>/debs/bookworm-arm64/*.deb
+```
+
+- Bundle only app dependencies (e.g. `libpaho-mqtt1.3`). System packages and configuration belong to stock_hmi.
+- Bundle runtime packages, not `-dev` packages.
+- Include the full set the app needs beyond the golden image; `apt` resolves dependencies among the local files.
+- Packages are tied to the Debian release and architecture in the folder name. A release for a new Debian release
+  needs a new golden image and setup version (`requires_setup`).
 
 ## Release Notes
 
