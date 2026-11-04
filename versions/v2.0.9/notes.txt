@@ -1,0 +1,33 @@
+v2.0.9 (2026-10-15)
+
+Notes were not written at release time; added retroactively on 2026-11-04.
+
+Supported units: TODO
+
+Summary: TODO
+
+Source: HPC_Firmware tag v2.0.9 (commit 1212ba1)
+Rebuilt on 2026-11-04 from tag v2.0.9, after the fact. The original v2.0.9 binaries were not kept, so a unit running v2.0.9 has different files. hmi was built on an ED-HMI with GCC 12.2 (Bookworm); control and iot with ESP-IDF 5.4.3 and the repo dev signing keys. Source commit is exact.
+
+Not usable with make-usb-kit.py: this commit has no hmi.service or polkit rule, and this app uses the older br0
+network layout, which the current provisioner replaces. Kept as an archive of the release.
+
+Changes since v2.0.8:
+- VERSION 2.000.009 (1212ba1c)
+- [FIX] HMI: BMS Demand_Mode input register reports the HMI demand mode selector (9ded2701)
+- correct run relay based on Rob's feedback (a3e73b0d)
+- [UPDATE] HMI: E180 evap flow verification time lower limit is 60s (10s on other units) (69cec976)
+- [FEATURE] create script tool for hiding the console (eb893bc7)
+- [UPDATE] explicit uninitialized serial number (953e8d73)
+- [UPDATE] perform a unit-type check that skips the post-heatcall-defrost-check for E180 units. Added TODO about making this logic more sophisticated later (0e1679df)
+- [UPDATE/BUG FIX] update defaults for E180. Fix issue with runtime evap flow alarm not triggering (9ed63569)
+- fixed vfd max frequency logic (f6a107d4)
+- [BUG FIX] HMI setpoints are all nv=2 (persistent across power cycles and flashes) and saved when set by the HMI. Includes a debounce in case value is changed step-by-step on the HMI (we only save the variables after they are stable for 5s) (0f48ce90)
+- [UPDATE] encountered low condenser flow errors. Increase the minimum valve position to compensate. (cf9dcead)
+- [BUG FIX] lockout save race, fault edge helpers, clearer lockout comment (7de19ff5)
+- [BUG FIX] correctly assign DNS address and validate provided network information (e212c13c)
+- [UPDATE] change stringp to string_buf, which allocates fixed-size buffers for each string rather than using a shared arena resource. This prevents a potential bug caused by updating stringp values (fd7f216a)
+- [UPDATE] remove discharge/suction pressure sensor faults (45030b73)
+- [UPDATE] adjust LATEST pointer in releases directory (6313591b)
+- [UPDATE] create_release.sh: prompt to promote new release to LATEST (28214fd1)
+- [UPDATE] create_release.sh: reject HMI binaries not built for ARM aarch64 (0a3fe28a)

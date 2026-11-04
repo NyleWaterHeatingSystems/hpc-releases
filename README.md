@@ -35,13 +35,14 @@ A release folder is never changed after it is published. A fix gets a new versio
 | `release_version` | Release name (matches its folder and `CURRENT`), e.g. `v2.0.8` or `v2.1.0-RC1` |
 | `release_datetime` | UTC time the release was created |
 | `source_repo`, `source_commit`, `source_branch`, `source_tag` | Exactly what the binaries were built from. `source_tag` is a tag in HPC_Firmware |
-| `source_provenance` | Only on releases made before source tracking (v2.0.8 and earlier): how the source commit was inferred |
-| `requires_setup` | Minimum stock_hmi setup version the release needs, or `null` |
+| `source_provenance` | Only on releases made before source tracking (v2.0.10 and earlier): how the source commit was inferred |
+| `requires_setup` | Setup the release needs, or `null`. Any value makes USB updates refuse it and ask for a full kit |
 | `debs` | Bundled packages (target, folder, and each file's package, version, architecture and SHA-256), or `null` |
 | `components` | File name and SHA-256 of each binary, plus a combined SHA-256 of the `assets/` folder |
 
 Releases up to v2.0.8 have no assets hash, and their source commit was inferred after the fact.
 Each manifest's `source_provenance` field and the release's notes say how confident that match is.
+v2.0.9 and v2.0.10 were rebuilt from their tags on 2026-11-04, so their source is exact, but they are not the original binaries.
 
 ## Creating a Release
 
@@ -50,7 +51,7 @@ In HPC_Firmware:
 1. Bump `VERSION`, commit, and push to `main`.
 2. Build the HMI (aarch64), control, and iot from that commit.
 3. Run `tools/create_release.sh` for a final release, or `tools/create_release.sh <RC-Number>` for a release candidate.
-   Add `--requires-setup setup-vX.Y.Z` if the release needs a minimum setup version.
+   Add `--requires-setup <ver>` if the release needs a newer setup; USB updates then refuse it and ask for a full kit.
    Add `--debs <dir>` to bundle the app's dependency `.deb` files (see below).
    The script expects this repository checked out next to HPC_Firmware; otherwise set `HPC_RELEASES_DIR` or pass `--releases-dir`.
 
@@ -93,11 +94,11 @@ offline from USB. Install them on the HMI with:
 sudo apt install ./versions/<release>/debs/bookworm-arm64/*.deb
 ```
 
-- Bundle only app dependencies (e.g. `libpaho-mqtt1.3`). System packages and configuration belong to stock_hmi.
+- Bundle only app dependencies (e.g. `libpaho-mqtt1.3`). System packages and configuration belong to `hmi_provisioning/` in HPC_Firmware.
 - Bundle runtime packages, not `-dev` packages.
 - Include the full set the app needs beyond the golden image; `apt` resolves dependencies among the local files.
 - Packages are tied to the Debian release and architecture in the folder name. A release for a new Debian release
-  needs a new golden image and setup version (`requires_setup`).
+  needs a new golden image or setup (`requires_setup`).
 
 ## Release Notes
 

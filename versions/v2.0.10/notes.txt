@@ -1,0 +1,44 @@
+v2.0.10 (2026-10-20)
+
+Notes were not written at release time; added retroactively on 2026-11-04.
+
+Supported units: TODO
+
+Summary: TODO
+
+Source: HPC_Firmware tag v2.0.10 (commit 6ab69ab)
+Rebuilt on 2026-11-04 from tag v2.0.10, after the fact. The original v2.0.10 binaries were not kept, so a unit running v2.0.10 has different files. hmi was built on an ED-HMI with GCC 12.2 (Bookworm); control and iot with ESP-IDF 5.4.3 and the repo dev signing keys. Source commit is exact.
+
+Not usable with make-usb-kit.py: this commit has no hmi.service or polkit rule, and this app uses the older br0
+network layout, which the current provisioner replaces. Kept as an archive of the release.
+
+Changes since v2.0.9:
+- VERSION 2.000.010 (6ab69abe)
+- [FIX] removed evap flow sensor alarm from C90 and E180 units (1490503d)
+- [UPDATE] Encountered an issue when the HMI software 'misses' the touch event service coming up, it may have not ability to register touches. Fixed by adding polling for the touch event service (35dab0eb)
+- [UPDATE] better modbus server retry handling (eaf329a7)
+- [UPDATE] add HGBV hardware flag that disabled HGBV-related features on the E180 (8c23ba32)
+- [UPDATE] increase condenser flow verification time upper limit to 300s per Rob (551693c0)
+- [FIX] remove damper switch prove (for now). Implementation was causing issues on the C90 (with no installed switch). Lack of damper caused flow verification to fail, triggering a condenser flow fault. (d1aaf543)
+- remove LLSV indication for E180 (133765bb)
+- increase to prevent wrapping on list item name text (457ebff9)
+- added EEV position  (percent) to diagnostic page (ada6188e)
+- WIN32 specific (c83eb1d5)
+- WIN32 specific for removable storage stuff (abab1c76)
+- automatically reset modbus timeout (power cycle issue) (e721ee55)
+- win32 specific (f90c8e31)
+- WIN32 specific bug fix (d99424de)
+- [BUG FIX] HGBV enable, capacity mode and diagnostic durations live on control (0ea93ac2)
+- [BUG FIX] HMI config/factory settings survive a power cycle (c7083dea)
+- [FIX] send condenser heater contact status to HMI (22e20ed1)
+- [UPDATE] HMI: remove DHCP, br0 is static-only (ca9708b3)
+- [UPDATE] revert unrelated build-regenerated HMI version.h (a01860f7)
+- [FIX] HMI: stop alarm flicker and duplicate alarm log entries (03ba7a21)
+- [Update] Comment adjustments (68a72a2c)
+- [UPDATE] Always show Unit Number in config page network section (57f2b375)
+- [FIX] Contact mode: remote-enable contact is the demand source, not a hold (bf74873b)
+- [UPDATE] Remove 8 hour timeout on Local Stop (5c47123c)
+- [DOCS] new alarm tables, regression script (a80fa978)
+- [UPDATE] git ignores claude-related files (7e9c58ea)
+- [UPDATE] Split remote stop into interface-agnostic REMOTE_HOLD and REMOTE_HARD_STOP (cba6cd60)
+- [FIX] BMS Remote_Disable is a non-alarm hold ("BMS Hold"), not a Remote Stop fault (41ea4c3e)

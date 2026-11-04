@@ -1,0 +1,29 @@
+{
+  "release_version": "v2.0.9",
+  "release_datetime": "2026-11-04T23:34:17Z",
+  "source_repo": "git@github.com:NyleWaterHeatingSystems/HPC_Firmware.git",
+  "source_commit": "1212ba1cd3dc5aa4feba1044392579cb5fb38c0d",
+  "source_branch": "main",
+  "source_tag": "v2.0.9",
+  "source_provenance": "Rebuilt on 2026-11-04 from tag v2.0.9, after the fact. The original v2.0.9 binaries were not kept, so a unit running v2.0.9 has different files. hmi was built on an ED-HMI with GCC 12.2 (Bookworm); control and iot with ESP-IDF 5.4.3 and the repo dev signing keys. Source commit is exact.",
+  "requires_setup": null,
+  "debs": null,
+  "components": {
+    "hmi": {
+      "file": "hmi_v2.0.9.bin",
+      "sha256": "99b2b502c57dfc6fd35ab3fd28238053fdfa6b623fa4de08dd1311c7b1bb6d88"
+    },
+    "iot": {
+      "file": "iot_v2.0.9.bin",
+      "sha256": "25962e66c752fa6cd3686d9aad8eae13b4c7ebe10de0fcb6aae44b06f27d09ea"
+    },
+    "control": {
+      "file": "control_v2.0.9.bin",
+      "sha256": "bccba39942cd3fe59c4951c35953f473525ab0017d1989d65ddbd6dc6b224356"
+    },
+    "assets": {
+      "dir": "assets",
+      "sha256": "1c460f7395474a57ca7f838e12511d15e0fc18aa9ea1df81286015bda3d0f049"
+    }
+  }
+}
