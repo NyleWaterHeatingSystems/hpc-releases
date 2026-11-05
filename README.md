@@ -49,7 +49,8 @@ v2.0.9 and v2.0.10 were rebuilt from their tags on 2026-11-04, so their source i
 In HPC_Firmware:
 
 1. Bump `VERSION`, commit, and push to `main`.
-2. Build the HMI (aarch64), control, and iot from that commit.
+2. Build the HMI (aarch64), control, and iot from that commit. For the HMI, run
+   `LinuxHMI/HPC_LinuxGUI/scripts/build-cross.sh`.
 3. Run `tools/create_release.sh` for a final release, or `tools/create_release.sh <RC-Number>` for a release candidate.
    Add `--requires-setup <ver>` if the release needs a newer setup; USB updates then refuse it and ask for a full kit.
    Add `--debs <dir>` to bundle the app's dependency `.deb` files (see below).

@@ -1,0 +1,36 @@
+{
+  "release_version": "v2.0.11-RC1",
+  "release_datetime": "2026-11-05T00:11:45Z",
+  "source_repo": "git@github.com:NyleWaterHeatingSystems/HPC_Firmware.git",
+  "source_commit": "5c74b7787ad36486cb90f6a344185ebaa7a5fbed",
+  "source_branch": "hmi-cross-compile",
+  "source_tag": "v2.0.11-RC1",
+  "requires_setup": null,
+  "debs": null,
+  "components": {
+    "hmi": {
+      "file": "hmi_v2.0.11.bin",
+      "sha256": "35d8650a2e841dc4175e4b9fa8ccbee7d5ef33f7cad04b65255849a5274d5110"
+    },
+    "hmi_service": {
+      "file": "hmi.service",
+      "sha256": "55a991492e4ca242efda407d3a02f0e7df2bb84f89d77afa841672dc0bcd3d17"
+    },
+    "hmi_polkit_rules": {
+      "file": "hmi-networkmanager.rules",
+      "sha256": "eadbdedb2feb2786dc768e6d10f283e093d2c4c6fcc7432f3ec14829bd45bd42"
+    },
+    "iot": {
+      "file": "iot_v2.0.11.bin",
+      "sha256": "c8e3d91146b90eb13d666e78ba0dede8e73533657971103b353bd0e72c74bdae"
+    },
+    "control": {
+      "file": "control_v2.0.11.bin",
+      "sha256": "4e29bff36fe8c4c9f55a7fd7f13ec54730f8736ae94cb5c924adc77361078992"
+    },
+    "assets": {
+      "dir": "assets",
+      "sha256": "1c460f7395474a57ca7f838e12511d15e0fc18aa9ea1df81286015bda3d0f049"
+    }
+  }
+}
