@@ -1,0 +1,21 @@
+v2.0.12-RC2 (2026-11-09)
+
+Supported units: E180 (the unit this candidate is being tested on). C90A builds but is untested.
+
+Summary: USB update fixes and rollback. A panel's install request was never picked up (a systemd ordering cycle
+in the units stock-hmi.py writes): panels provisioned with an earlier kit need a current kit run before drive
+updates work. A USB drive can now also take an HMI back to an older release: the panel shows every breaking change
+between the two releases (BREAKING_CHANGES.json, now carried in each manifest as breaking_changes) and takes a
+second confirmation to go back; a change only a full kit can make is refused. USB kits ship
+prepare-release-image.sh, which cleans a provisioned HMI for capture as a release image (HOWTO 4).
+
+App, control and iot are otherwise as v2.0.12-RC1 (same status packet and variable tables), so the RC1 notes on
+the log drive format and hpc-gateway apply from v2.0.11-RC2.
+
+Built by tools/create_release.sh: HMI cross-compiled with scripts/build-cross.sh, control and iot with ESP-IDF 5.4.3
+and the repo dev signing keys. Not yet run on hardware.
+
+Changes since v2.0.12-RC1:
+- [FEATURE] prepare-release-image.sh: clean a provisioned HMI for a release image (f7dcad81)
+- [FEATURE] USB update: go back to older releases, with warnings for breaking changes (4d2748ee)
+- [BUG FIX] USB update: the panel's install request was never picked up (33578f41)
