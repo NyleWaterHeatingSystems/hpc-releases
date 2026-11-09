@@ -1,0 +1,19 @@
+v2.0.13-RC1 (2026-11-09)
+
+Supported units: E180 and C90A build; neither has been tested on hardware yet.
+
+Summary: Factory page Condenser Flow section: Min Target Flow (the condenser flow loop's minimum, now 1.2 GPM on
+all units; E180 was 1.5, C90A 1.0) and Low Flow Alarm (0.7 GPM). The HMI seeds both from control and sends them
+back once initialized. Units keep their saved values until Reset Config to Unit Defaults or an edit on the page.
+Both HMI-HPC packets grew: update control, iot and the HMI together (the panel warns, both directions). Regenerate
+hpc-gateway's conf with --remap. Also: QUICKSTART_SETUP.md and QUICKSTART_UPGRADE.md in hmi_provisioning.
+
+Changes since v2.0.12-RC2:
+- [DOCS] Add E180 v2000 alarm summary manual draft 3 (CSV) (7ac74930)
+- [DOCS] hmi_provisioning: QUICKSTART_SETUP.md, and QUICKSTART_UPGRADE.md for USB drive updates (0e3f068d)
+- [FEATURE] Factory page: min condenser flow target and low flow alarm threshold (4d7da474)
+- [DOCS] Rename HOWTO_golden_image.md to HOWTO.md; make the readme an overview (fafc58ca)
+- [DOCS] HOWTO: get and add images with Git LFS (a41a6665)
+- [FEATURE] hmi_provisioning: store golden image and Bookworm Lite base in images/ (Git LFS) (690a238d)
+- [UPDATE] remove old recipes (c45e7736)
+- [DOCS] HOWTO 4: release images (provision, clean with prepare-release-image.sh, capture, flash) (0b6b83e6)
