@@ -1,0 +1,44 @@
+v2.0.11-RC2 (2026-11-09)
+
+Supported units: E180 (the unit this candidate is being tested on). C90A builds but is untested.
+
+Summary: Alarm bits renumbered with no gaps (faults and warnings; lockouts unchanged), and the BMS reads the full
+warnings/faults/lockouts fields at input registers 54-65 instead of Alarm_Reg1-3 (which the data log and MCP still
+get in their old layout). BMS Remote drops the heat call and raises BMS Communication Lost when the BMS disconnects.
+On the HMI, losing the HPC is a fault (HMI Communication Lost) instead of a blocking popup: unit controls lock and
+the unit's readings and setpoints go blank until it is back. USB/SD log storage is all on the Diagnostic page, the
+panel offers to install a newer release from a USB drive, and a log drive plugged in at power-up is no longer lost.
+Control: idle valve position applies immediately, pump demand works in Off and every demand mode, freeze protection
+keeps priority over the resting pump and valve, and Local Stop also applies in MCPLA.
+
+Control, iot and HMI must be updated together (status packet and alarm bits changed). hpc-gateway's conf must be
+regenerated with --remap (HMI variable table changed).
+
+Built by tools/create_release.sh: HMI cross-compiled with scripts/build-cross.sh, control and iot with ESP-IDF 5.4.3
+and the repo dev signing keys. Not yet run on hardware.
+
+Changes since v2.0.11-RC1:
+- [DOCS] Alarm table: plain-English threshold names; note the VFD manual link is third-party hosted (f85b1033)
+- [DOCS] Alarm table: reviewed wording, named thresholds, VFD manual reference (7b8b6ef7)
+- [BUG FIX] Local Stop in MCPLA; the HPC never reports the HMI's reserved alarm bits (d0193ac5)
+- [UPDATE] HMI: blank the unit's readings too while it isn't initialized with the HPC (c59fc85a)
+- [UPDATE] HMI: HPC loss is a fault; unit controls lock instead of a blocking popup; USB storage on Diagnostic (9fa9aed3)
+- [DOCS] BMS Modbus register map, generated from modbus_server.cpp (cb2e9338)
+- [BUG FIX] Freeze protection keeps priority over the resting condenser pump and valve (ee6dc3d7)
+- [UPDATE] Alarm bits renumbered with no gaps; BMS reads full alarm fields; BMS link loss (79677fff)
+- [BUG FIX] Idle valve position applies right away; pump demand works when off (77adff9b)
+- [DOCS] BUILDING.md: library check fails loudly; verified on a fresh PC (ba123c00)
+- [DOCS] tools/BUILDING.md: set up a PC, build, test and release (2590cbb0)
+- [TEST] removable storage tests: point the log directory at scratch again (16b4a3a7)
+- [TEST] On-panel checks for the log drive and USB update at boot (b9051587)
+- [BUG FIX] HMI: log drive recovers on its own; HMI has priority over the drive (c8e42e5c)
+- [BUG FIX] USB updater: don't take a log drive away from the HMI at boot (749e5529)
+- Alarm table: sort sections by bit and add Sensor Alarm (b1fe7084)
+- Refuse BMS writes that don't match the register's size (26a954c3)
+- HOWTO: stop the app before the config reset (43753a4f)
+- HOWTO: add the unit type and config reset setup step (4a8c372c)
+- Clear demand while the cold tank sensor is faulted (b5c3f99d)
+- Fix USB log drive provisioning for the unprivileged HMI (5791ea10)
+- Keep the panel clear of text during boot (7ffc74c2)
+- Fix the unit number change and record the first fresh setup (6a8a747b)
+- [FEATURE] HMI: prompt to install a release from a USB drive (10c75a59)
