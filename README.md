@@ -37,6 +37,7 @@ A release folder is never changed after it is published. A fix gets a new versio
 | `source_repo`, `source_commit`, `source_branch`, `source_tag` | Exactly what the binaries were built from. `source_tag` is a tag in HPC_Firmware |
 | `source_provenance` | Only on releases made before source tracking (v2.0.10 and earlier): how the source commit was inferred |
 | `requires_setup` | Setup the release needs, or `null`. Any value makes USB updates refuse it and ask for a full kit |
+| `breaking_changes` | From v2.0.12-RC2: all of HPC_Firmware's `BREAKING_CHANGES.json` up to this release. A USB update warns about each change between the installed release and this one, either way, and refuses a `full_kit` one |
 | `debs` | Bundled packages (target, folder, and each file's package, version, architecture and SHA-256), or `null` |
 | `components` | File name and SHA-256 of each binary, plus a combined SHA-256 of the `assets/` folder |
 
@@ -48,7 +49,8 @@ v2.0.9 and v2.0.10 were rebuilt from their tags on 2026-11-04, so their source i
 
 In HPC_Firmware:
 
-1. Bump `VERSION`, commit, and push to `main`.
+1. Bump `VERSION`, commit, and push to `main`. Add an entry to `BREAKING_CHANGES.json` for anything that breaks
+   across releases, in the commit that makes the change; the script checks the file and copies it into the manifest.
 2. Build the HMI (aarch64), control, and iot from that commit. For the HMI, run
    `LinuxHMI/HPC_LinuxGUI/scripts/build-cross.sh`.
 3. Run `tools/create_release.sh` for a final release, or `tools/create_release.sh <RC-Number>` for a release candidate.
