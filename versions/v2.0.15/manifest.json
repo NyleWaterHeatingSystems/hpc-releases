@@ -1,0 +1,86 @@
+{
+  "release_version": "v2.0.15",
+  "release_datetime": "2026-11-09T22:23:57Z",
+  "source_repo": "git@github.com:NyleWaterHeatingSystems/HPC_Firmware.git",
+  "source_commit": "b4b3325a9c70f4d5bf9d355c615e50bae6b0c1e9",
+  "source_branch": "main",
+  "source_tag": "v2.0.15",
+  "requires_setup": null,
+  "breaking_changes": [
+    {
+      "since": "v2.0.11-RC1",
+      "kind": "full_kit",
+      "area": "setup",
+      "text": "Network changed from br0 to one fixed address per port, which only stock-hmi.py sets up."
+    },
+    {
+      "since": "v2.0.11-RC2",
+      "kind": "full_kit",
+      "area": "setup",
+      "text": "Apps before v2.0.11-RC2 can't install from a USB drive, so the panel couldn't be updated again from one."
+    },
+    {
+      "since": "v2.0.11-RC2",
+      "kind": "warning",
+      "area": "firmware",
+      "text": "Status packet and alarm bits changed: control and iot must run firmware from the same side of v2.0.11-RC2."
+    },
+    {
+      "since": "v2.0.11-RC2",
+      "kind": "warning",
+      "area": "gateway",
+      "text": "HMI variable table changed: regenerate hpc-gateway's conf with --remap, or it reads the wrong values."
+    },
+    {
+      "since": "v2.0.12-RC1",
+      "kind": "warning",
+      "area": "log_drive",
+      "text": "Log drive format changed: log drives must be re-provisioned on the Diagnostic page, which erases them."
+    },
+    {
+      "since": "v2.0.12-RC1",
+      "kind": "warning",
+      "area": "gateway",
+      "text": "HMI variable table changed: regenerate hpc-gateway's conf with --remap, or it reads the wrong values."
+    },
+    {
+      "since": "v2.0.13-RC1",
+      "kind": "warning",
+      "area": "firmware",
+      "text": "HMI-HPC packets changed: control and iot must run firmware from the same side of v2.0.13, or the HMI can't reach the HPC."
+    },
+    {
+      "since": "v2.0.13-RC1",
+      "kind": "warning",
+      "area": "gateway",
+      "text": "HMI variable table changed: regenerate hpc-gateway's conf with --remap, or it reads the wrong values."
+    }
+  ],
+  "debs": null,
+  "components": {
+    "hmi": {
+      "file": "hmi_v2.0.15.bin",
+      "sha256": "d421f4e249a13fb60af84961349cb1fbe18491393520638cf14b9776361e74b8"
+    },
+    "hmi_service": {
+      "file": "hmi.service",
+      "sha256": "5c912b48d81435355206d61afd3f3d857f1bcd80c7f63485c143f148ed03e3bd"
+    },
+    "hmi_polkit_rules": {
+      "file": "hmi-networkmanager.rules",
+      "sha256": "e813ff79c6348404fee5a888c682b0f02252b9f9980b6892b451b89e05c21391"
+    },
+    "iot": {
+      "file": "iot_v2.0.15.bin",
+      "sha256": "7c56633c71af1e1dea3715580a3c1af19bbaa2be0517b4bc2d712dec52c182de"
+    },
+    "control": {
+      "file": "control_v2.0.15.bin",
+      "sha256": "77d88ea7dbb8fffaa883392e13cdd0a4b8cfcc581c7bbdb5c36d79e948e02b9e"
+    },
+    "assets": {
+      "dir": "assets",
+      "sha256": "1c460f7395474a57ca7f838e12511d15e0fc18aa9ea1df81286015bda3d0f049"
+    }
+  }
+}

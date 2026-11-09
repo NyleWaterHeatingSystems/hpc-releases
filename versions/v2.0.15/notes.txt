@@ -1,0 +1,16 @@
+v2.0.15 (2026-11-09)
+
+Supported units: E180 and C90A build; not yet tested on hardware.
+
+Summary: Low condenser flow between the alarm limit (0.7 GPM) and the flow verification cut-out (5 GPM) now
+locks the unit out after 3 failed starts; before, the soft fault repeated forever. The Configuration, Diagnostics
+and Factory pages show floats to 1 decimal place. BMS: Alarm_Warning, Alarm_Fault and Alarm_Lockout (input
+registers 15-17, BACnet AI 27-29) are removed; use Warnings, Faults and Lockouts (AI 50-52), which include the
+HMI's own alarms. Load FieldServer profile revision 7.00aA (HPC_Firmware bms_gateway/) with this release. Flash
+control, iot and the HMI.
+
+Changes since v2.0.14:
+- [UPDATE] Version 2.0.15 (b4b3325a)
+- [UPDATE] Config, Diagnostics and Factory pages show floats to 1 decimal place (25e5cd71)
+- [BUG FIX] Low condenser flow: failed flow verification now reaches the lockout (286a74ed)
+- [UPDATE] BMS: remove Alarm_Warning/Fault/Lockout points; add BMS gateway config (eafd3433)
