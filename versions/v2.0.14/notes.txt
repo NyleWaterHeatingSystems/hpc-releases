@@ -1,0 +1,14 @@
+v2.0.14 (2026-11-09)
+
+Supported units: E180 and C90A build; tested on hardware only through the v2.0.13-RC1 USB update.
+
+Summary: HMI-only fixes on top of v2.0.13-RC1 (control and iot are unchanged apart from the version number).
+The USB update popup shows over every page, not just Home, and a dismissed popup (including Update installed)
+stays dismissed. Purge Cut-Out Temp's maximum is 140F (was 160F); panels that saved the old limit in
+settings.txt use the new one. From v2.0.12-RC2 or older, the v2.0.13-RC1 packet change still applies: flash
+control and iot from this release too.
+
+Changes since v2.0.13-RC1:
+- [UPDATE] Version 2.0.14: regenerated version.h (49ad261d)
+- [BUG FIX] Purge cut-out temp max is 140F, not 160F; version 2.0.14 (ca11e06b)
+- [BUG FIX] USB update popup: show on every page, and stay dismissed (f019c063)
