@@ -1,0 +1,34 @@
+v2.0.12-RC1 (2026-11-09)
+
+Supported units: E180 (the unit this candidate is being tested on). C90A builds but is untested.
+
+Summary: First candidate for testing the USB update from v2.0.11-RC2. The data log follows the DLOG table
+(V2.000 Data Log Explanations): columns in table order and renamed to match, Faults and Warnings once, HMI Alarms and
+Pressure Diff dropped, one Evap Flow Prove column, and Phase A/B/C Power (V x I, apparent power) instead of phase
+voltages. Logs start with Timestamp and Local Time columns. Value tables for the encoded log columns are in
+HPC_Firmware/documents/log_tables. The Factory page can reset the control board's config to the unit type's
+defaults. Log drives can be provisioned before the unit serial is set. Control: phase C voltage and current no
+longer report phase B's.
+
+The log drive format is now 2.000.012: drives provisioned by earlier software must be re-provisioned (Diagnostic
+page) before they are written again.
+
+A USB update drive installs only the HMI app. Control and iot are updated separately; this HMI runs with
+v2.0.11-RC2 control and iot (same status packet layout), but Reset Config and the phase C fix need this release's
+control firmware. hpc-gateway's conf must be regenerated with --remap (variable tables changed).
+
+Built by tools/create_release.sh: HMI cross-compiled with scripts/build-cross.sh, control and iot with ESP-IDF 5.4.3
+and the repo dev signing keys. Not yet run on hardware.
+
+Changes since v2.0.11-RC2:
+- [UPDATE] HMI log drives: log format 2.000.012 (data log columns in DLOG table order) (131c4524)
+- [UPDATE] Version 2.0.12 (5ce87f9d)
+- [FEATURE] Log value tables for the data and setpoint logs (a03acf05)
+- [UPDATE] HMI data log: DLOG table column order and names (60b9f58a)
+- [BUG FIX] Control: phase C voltage and current reported phase B's (203f5fc2)
+- [UPDATE] HMI logs: Timestamp and Local Time columns instead of Time (cb19e55d)
+- [FEATURE] Factory page: Reset Config to Unit Defaults (f1950825)
+- [UPDATE] HMI Alarms page: each section is double rows with at most one half row, last (90b3beee)
+- [BUG FIX] HMI: BMS Communication Lost is listed with the passive faults, not the sensor faults (1481b5e1)
+- [FEATURE] HMI: provision log drives before the unit serial is set (14c2b7c1)
+- [UPDATE] Golden image 2026-11-09: eth0 at 192.168.0.3 instead of eth2 at .4 (a35decbe)
