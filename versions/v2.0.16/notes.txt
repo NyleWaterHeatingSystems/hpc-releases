@@ -1,0 +1,24 @@
+v2.0.16 (2026-11-11)
+
+Supported units: E180 and C90A build; not yet tested on hardware.
+
+Summary: Fault bits renumbered and compacted: Modbus fault, defrost fault and sensor alarm are removed as
+separate bits, and HGBV Timeout is now logged. BMS Modbus input registers and BACnet AI numbers changed:
+load FieldServer profile revision 8.00aA (HPC_Firmware bms_gateway/) with this release and remap the BMS
+points. A false "HMI disconnected" alarm logged at power-up is fixed. Flash control, iot and the HMI.
+
+Changes since v2.0.15:
+- [UPDATE] Version 2.0.16 (f961855a)
+- [DOCS] Alarm summary table (Draft 4): drop Modbus fault, renumber bits (093b386f)
+- [UPDATE] Remove defrost/Modbus faults and compact fault bits; log HGBV Timeout (2ec87d36)
+- Fix false HMI disconnection logged at power-up (303964a8)
+- changed default value (c0700d51)
+- exit defrost if the unit is turned off (385d9da5)
+- 3 minute runtime on defrost currently overrides "off" and "lockouts".  it should not. (a37bfbba)
+- [DOCS] Alarm summary table (Draft 4): lockouts, faults, warnings by log value; plain-language triggers (f161e032)
+- [UPDATE] Keep legacy Alarm_Reg1 as it always was: bit 14 any sensor fault, bit 15 any lockout (c403b2f8)
+- [UPDATE] Remove summary alarm bits; build MCP6 alarm registers in mcp.cpp from the full fields (f796bde4)
+- [UPDATE] HMI USB/SD warnings: quiet for update drives; split Not Provisioned from Error; add No Log Drive (10fe0898)
+- [UPDATE] Low condenser flow: reset the trip count when condenser flow proves in flow verification (d5562a12)
+- [UPDATE] BMS: consolidate Modbus input registers, renumber BACnet AIs, rename alarm fields Alarms_* (73308b33)
+- [BUG FIX] Config reset restores only saved settings, so the condenser valve stays at its idle position (aa88769b)
