@@ -1,0 +1,27 @@
+v2.0.17 (2026-11-24)
+
+Supported units: E180 and C90A build; not yet tested on hardware.
+
+Summary: The setpoint log's columns now follow SPlog Table V2000 (renamed, reordered, some removed), so
+anything that reads those CSVs needs updating. The HMI sends Holding to the MCP at 400120, and SP/MP now uses
+the C-series PLC encoding (1 = singlepass). Condenser flow uses a linear calibration, filtered to the same
+time constant as before. HMI Communication Lost has a startup grace period on both sides. A Firmware Version
+Mismatch warning is added. While disconnected, the HMI shows its own clock and the factory password can be
+entered; the daily passwords follow the local date. HMI variable table changed: regenerate hpc-gateway's
+conf with --remap. Flash control, iot and the HMI.
+
+Changes since v2.0.16:
+- [UPDATE] Version 2.0.17 (021b776d)
+- [DOCS] MCP poll table for C-series PLCs (SP/MP and Holding), referenced by mcp_register_vars.h (b1ae32a1)
+- [FIX] HMI: clock and factory password work while disconnected; x86 builds leave the network alone (e835efa7)
+- [UPDATE] Setpoint log: columns follow SPlog Table V2000 (80266383)
+- [UPDATE] Condenser flow: cond_alpha matches the old filter's time constant (473f8ff4)
+- traxie Based Golden Image for edatec (a1688287)
+- [UPDATE] Condenser flow: linear calibration replaces the quadratic (c1a1a07e)
+- [FIX] HMI Communication Lost: startup grace period on both sides (887b4539)
+- [FEATURE] HMI: send Holding to the MCP; SP/MP encoding matches the C-series PLCs (bb9d44a4)
+- [FIX] HMI: log header and MQTT hello reported the HMI version as IoT's (80034af8)
+- [FEATURE] HMI: Firmware Version Mismatch warning; show Control and IoT versions (9d620096)
+- searchable HPC PDF (rough draft) (eb41bac4)
+- Add files via upload (dcee17e4)
+- add logrotate to provissioner. (9dcdd9a9)
