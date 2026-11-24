@@ -1,0 +1,16 @@
+v2.0.18 (2026-11-24)
+
+Supported units: E180 and C90A build; not yet tested on hardware.
+
+Summary: One FAT32 USB stick now does setup, updates and logging, each in its own folder: HPC_SETUP/ (the
+kit), hpc-releases/ (a copy of this checkout) and HPC_LOGS/. USB updates read hpc-releases/, falling back to
+releases/. Each release now ships its USB updater, which a USB update installs with the app. Provisioning a
+FAT32 drive on the Diagnostic page resets only HPC_LOGS; other drives are still erased. A panel set up with
+an older kit keeps an updater that reads only releases/: run this release's kit on it once (HOWTO 3.2).
+Control and iot are unchanged from v2.0.17 apart from the version; flash them so the versions match.
+
+Changes since v2.0.17:
+- [UPDATE] Version 2.0.18 (c50c7ca4)
+- [FEATURE] USB: one stick holds HPC_SETUP, hpc-releases and HPC_LOGS; releases ship their own updater (b720bbca)
+- [FEATURE] HMI: provisioning a FAT32 drive resets only HPC_LOGS (c0f783d4)
+- [FIX] HMI tests: settings log test follows the SPlog V2000 columns (6c40d531)

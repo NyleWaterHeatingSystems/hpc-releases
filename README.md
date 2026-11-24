@@ -4,6 +4,10 @@ This repository is the archive of HPC firmware releases and release candidates.
 Each release consists of three binaries (HMI, control, and iot) plus the HMI assets.
 The binaries are kept here uncompressed, so a checkout can be copied onto an HMI as-is.
 
+To update HMIs from a USB drive, copy this whole checkout onto a FAT32 drive as `hpc-releases/`: the panel offers
+the release `CURRENT` names (HPC_Firmware `hmi_provisioning/QUICKSTART_UPGRADE.md`). HMIs set up with a kit from
+before 2026-11-24 look for a `releases/` folder instead, until a current kit is run on them.
+
 Releases are created by `tools/create_release.sh` in the
 [HPC_Firmware](https://github.com/NyleWaterHeatingSystems/HPC_Firmware) repository; nothing here builds anything.
 
@@ -21,6 +25,8 @@ hpc-releases/
     │   ├── iot_v2.0.8.bin        # Embedded IOT chip binary
     │   ├── control_v2.0.8.bin    # Embedded control chip binary
     │   ├── assets/               # HMI assets (audio, fonts, images)
+    │   ├── hmi.service, hmi-networkmanager.rules  # HMI systemd unit and polkit rule (v2.0.11 and later)
+    │   ├── hpc-usb-update.py     # USB updater, installed with the app by a USB update (v2.0.18 and later)
     │   └── debs/bookworm-arm64/  # Optional: app dependency packages for that Debian release/architecture
     ├── v2.1.0-RC1/               # Release candidates are suffixed with '-RC[Candidate Index]'
     └ ...
@@ -39,7 +45,7 @@ A release folder is never changed after it is published. A fix gets a new versio
 | `requires_setup` | Setup the release needs, or `null`. Any value makes USB updates refuse it and ask for a full kit |
 | `breaking_changes` | From v2.0.12-RC2: all of HPC_Firmware's `BREAKING_CHANGES.json` up to this release. A USB update warns about each change between the installed release and this one, either way, and refuses a `full_kit` one |
 | `debs` | Bundled packages (target, folder, and each file's package, version, architecture and SHA-256), or `null` |
-| `components` | File name and SHA-256 of each binary, plus a combined SHA-256 of the `assets/` folder |
+| `components` | File name and SHA-256 of each binary, plus a combined SHA-256 of the `assets/` folder. From v2.0.18, `updater` is the USB updater (`hpc-usb-update.py`), which a USB update installs along with the app |
 
 Releases up to v2.0.8 have no assets hash, and their source commit was inferred after the fact.
 Each manifest's `source_provenance` field and the release's notes say how confident that match is.
